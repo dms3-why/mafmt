@@ -3,7 +3,7 @@ package mafmt
 import (
 	"strings"
 
-	ma "github.com/multiformats/go-multiaddr"
+	ma "github.com/dms3-mft/go-multiaddr"
 )
 
 // Define IP as either ipv4 or ipv6
@@ -27,8 +27,8 @@ var Unreliable = Or(UDP)
 // Now define a Reliable transport as either tcp or utp or quic
 var Reliable = Or(TCP, UTP, QUIC)
 
-// IPFS can run over any reliable underlying transport protocol
-var IPFS = And(Reliable, Base(ma.P_IPFS))
+// DMS3FS can run over any reliable underlying transport protocol
+var DMS3FS = And(Reliable, Base(ma.P_DMS3FS))
 
 const (
 	or  = iota

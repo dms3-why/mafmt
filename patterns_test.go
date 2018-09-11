@@ -3,7 +3,7 @@ package mafmt
 import (
 	"testing"
 
-	ma "github.com/multiformats/go-multiaddr"
+	ma "github.com/dms3-mft/go-multiaddr"
 )
 
 func assertMatches(t *testing.T, p Pattern, args ...[]string) {
@@ -90,20 +90,20 @@ func TestBasicMatching(t *testing.T) {
 		"/quic",
 	}
 
-	good_ipfs := []string{
-		"/ip4/1.2.3.4/tcp/1234/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
-		"/ip6/::/tcp/1234/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
-		"/ip6/::/udp/1234/utp/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
-		"/ip4/0.0.0.0/udp/1234/utp/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
+	good_dms3fs := []string{
+		"/ip4/1.2.3.4/tcp/1234/dms3fs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
+		"/ip6/::/tcp/1234/dms3fs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
+		"/ip6/::/udp/1234/utp/dms3fs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
+		"/ip4/0.0.0.0/udp/1234/utp/dms3fs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
 	}
 
-	bad_ipfs := []string{
-		"/ip4/1.2.3.4/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
-		"/ip6/::/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
-		"/tcp/123/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
-		"/ip6/::/udp/1234/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
-		"/ip6/::/utp/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
-		"/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
+	bad_dms3fs := []string{
+		"/ip4/1.2.3.4/dms3fs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
+		"/ip6/::/dms3fs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
+		"/tcp/123/dms3fs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
+		"/ip6/::/udp/1234/dms3fs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
+		"/ip6/::/utp/dms3fs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
+		"/dms3fs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
 	}
 
 	assertMatches(t, IP, good_ip)
@@ -113,7 +113,7 @@ func TestBasicMatching(t *testing.T) {
 	assertMismatches(t, TCP, bad_tcp, good_ip)
 
 	assertMatches(t, UDP, good_udp)
-	assertMismatches(t, UDP, bad_udp, good_ip, good_tcp, good_ipfs, good_utp, good_quic)
+	assertMismatches(t, UDP, bad_udp, good_ip, good_tcp, good_dms3fs, good_utp, good_quic)
 
 	assertMatches(t, UTP, good_utp)
 	assertMismatches(t, UTP, bad_utp, good_ip, good_tcp, good_udp, good_quic)
@@ -122,11 +122,11 @@ func TestBasicMatching(t *testing.T) {
 	assertMismatches(t, QUIC, bad_quic, good_ip, good_tcp, good_udp, good_utp)
 
 	assertMatches(t, Reliable, good_utp, good_tcp, good_quic)
-	assertMismatches(t, Reliable, good_ip, good_udp, good_ipfs)
+	assertMismatches(t, Reliable, good_ip, good_udp, good_dms3fs)
 
 	assertMatches(t, Unreliable, good_udp)
-	assertMismatches(t, Unreliable, good_ip, good_tcp, good_utp, good_ipfs, good_quic)
+	assertMismatches(t, Unreliable, good_ip, good_tcp, good_utp, good_dms3fs, good_quic)
 
-	assertMatches(t, IPFS, good_ipfs)
-	assertMismatches(t, IPFS, bad_ipfs, good_ip, good_tcp, good_utp, good_udp, good_quic)
+	assertMatches(t, DMS3FS, good_dms3fs)
+	assertMismatches(t, DMS3FS, bad_dms3fs, good_ip, good_tcp, good_utp, good_udp, good_quic)
 }
